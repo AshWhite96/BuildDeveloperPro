@@ -1046,6 +1046,19 @@
 			return geo; //returns the figure
 		});
 
+
+//DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODELEFT
+		var doorNodeLeft = "F M0 0 L55 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 55 45z";
+		var DoorNodeLeft = go.Geometry.parse(doorNodeLeft);
+		DoorNodeLeft.normalize();
+
+		go.Shape.defineFigureGenerator("DoorNodeLeft", function(shape, w, h){
+			var geo2 = DoorNodeLeft.copy();
+			geo2.scale(-1, 1);
+			geo2.scale(1, -1);
+			return geo2; 
+		});
+
    		//More MyDiagram Settings
     	myDiagram.grid.visible = true;
         myDiagram.grid.gridCellSize = new go.Size(10,10);
@@ -1101,6 +1114,17 @@ myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when
 			)));
 
 
+//CREATING A DOOR NODE - USED FOR DOORNODELEFT
+myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when developing model category can be called
+	$(go.Node, "Vertical",
+		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Top},//Set its personalisations
+		$(go.Shape, "DoorNodeLeft",//Set its figure
+			{stroke: "blue", fill: "blue"},
+			new go.Binding("fill", "fill"),
+			new go.Binding("stroke", "stroke")
+			)));
+
+
 
   
 
@@ -1111,11 +1135,10 @@ myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when
     myPalette.nodeTemplateMap = myDiagram.nodeTemplateMap;//Set the palette  node template to the diagram node template
     myPalette.model = new go.GraphLinksModel([//Create a new palette model 
     	{category: "", fill: "grey", width: 120, height: 10},//The Wall
-    	{text: "", fill: "white", figure: "DoorNodeRight"},//test doornode needs removing
     	{text: "", stroke: "black", figure: "LineH", width: 100, height: 10},//window element
+    	{category: "DoorLeft", fill: "white", stroke: "black"},
     	{category: "DoorRight", fill: "white", stroke: "black"}//The Right Door Model
     	]);
-
 
 
 /*Context Menu - NEEDS REVISING
