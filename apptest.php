@@ -1008,13 +1008,16 @@
 //TESTESTESTESTESTESTESTEST
  var $ = go.GraphObject.make;//Always required at the start of a diagram
 
-    myDiagram = 
+ 	//CREATING A DIAGRAM
+ 	 myDiagram = 
       $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
         {
+           //Initial Diagram Settings
           initialContentAlignment: go.Spot.Center, // center the content
-          draggingTool: new GuidedDraggingTool(),//set a new dragging tool function
+          draggingTool: new GuidedDraggingTool(),//create a new draggingtool function called draggingTool
           rotatingTool: $(TopRotatingTool),// defined below
           "undoManager.isEnabled": true,  // enable undo & redo
+
           //DraggingTool Settings
           "draggingTool.horizontalGuidelineColor": "blue",//set dragging tool colours
           "draggingTool.verticalGuidelineColor": "blue",
@@ -1032,142 +1035,90 @@
 
 
 
+//DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODERIGHT
+	 	var doorNodeRight = "F M0 0 L55 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 55 45z";
+ 		var DoorNode = go.Geometry.parse(doorNodeRight);//parses geometry string
+ 		DoorNode.normalize();
 
+		go.Shape.defineFigureGenerator("DoorNodeRight", function(shape, w, h){//A function to define the previous geometry as an actual figure: "DoorNodeRight"
+			var geo = DoorNode.copy();//create a copy
+			geo.scale(1, -1);//flips the image the correct way
+			return geo; //returns the figure
+		});
 
-
-
-
- 
-
- var doorNode = "F M0 0 L55 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 55 45z";
- var DoorNode = go.Geometry.parse(doorNode);
- DoorNode.normalize();
-
-go.Shape.defineFigureGenerator("DoorNodeRight", function(shape, w, h){
-	var geo = DoorNode.copy();
-	geo.scale(1, -1);
-	return geo; 
-});
-
-
-
-   		
-   		//MyDiagram Settings
+   		//More MyDiagram Settings
     	myDiagram.grid.visible = true;
         myDiagram.grid.gridCellSize = new go.Size(10,10);
 	    myDiagram.allowDrop = true;
+	    myDiagram.commandHandler.selectAll();
 
-	/*Creates a Template of a Wall Object, 
-	myDiagram.nodeTemplate =
-	$(go.Node, "Vertical",//Creates a Node in a vertical alignment
-      { resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Bottom,//Makes it resizable, rotatable, and sets point of rotation and snapping to bottom of object
-        resizeAdornmentTemplate:  // specify what resize handles there are and how they look
-          $(go.Adornment, "Spot",//set an adornment
-            $(go.Placeholder),  // takes size and position of adorned object
-            $(go.Shape, "Circle",  // creates left resize handle
-              { alignment: go.Spot.Left, cursor: "col-resize",//sets the spot to the left and sets cursor
-                desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),//sets its size, and colour
-            $(go.Shape, "Circle",  // creates right resize handle
-              { alignment: go.Spot.Right, cursor: "col-resize",
-                desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),
-            $(go.TextBlock, // show the width as text
-              { alignment: go.Spot.Top, alignmentFocus: new go.Spot(0.5, 1, 0, -2),//sets the position of rotation
-                stroke: "dodgerblue" },
-              new go.Binding("text", "adornedObject",
-                             function(shp) { return shp.naturalBounds.width.toFixed(0); })
-                  .ofObject())
-          ),
-          selectionAdorned: false },  // don't show selection Adornment, a rectangle
-      $(go.Shape, "Rectangle",
-        { name: "SHAPE", fill: "gray", width: 300, height: 10}),//sets the shape size
-    );*/
 
+
+
+//CREATING A NODE TEMPLATE, THIS ONE ADDS A DEFAULT SHAPE WITH DEFAULT SETTINGS AND PERSONALISATIONS - USED FOR WALLS
 myDiagram.nodeTemplateMap.add("",
 	$(go.Node, "Vertical",
 		{resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
 		 resizeAdornmentTemplate:
-		 $(go.Adornment, "Spot",//set an adornment
-            $(go.Placeholder),  // takes size and position of adorned object
-            $(go.Shape, "Circle",  // creates left resize handle
-              { alignment: go.Spot.Left, cursor: "col-resize",//sets the spot to the left and sets cursor
-                desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),//sets its size, and colour
-            $(go.Shape, "Circle",  // creates right resize handle
-              { alignment: go.Spot.Right, cursor: "col-resize",
-                desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),
-            $(go.TextBlock, // show the width as text
-              { alignment: go.Spot.Top, alignmentFocus: new go.Spot(0.5, 1, 0, -2),//sets the position of rotation
-                stroke: "dodgerblue" },
-              new go.Binding("text", "adornedObject",
-                             function(shp) { return shp.naturalBounds.width.toFixed(0); })
-                  .ofObject())
-          ),
-          selectionAdorned: false 
-		  },
+			$(go.Adornment, "Spot",//set an adornment
+            	$(go.Placeholder),  // takes size and position of adorned object
+            		$(go.Shape, "Circle",  // creates left resize handle
+              			{alignment: go.Spot.Left, cursor: "col-resize",//sets the spot to the left and sets cursor
+                		desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),//sets its size, and colour
+            		$(go.Shape, "Circle",  // creates right resize handle
+              			{alignment: go.Spot.Right, cursor: "col-resize",
+                		desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),
+            				$(go.TextBlock, //Shows the width of the object as text
+              					{alignment: go.Spot.Top, alignmentFocus: new go.Spot(0.5, 1),//sets its position above figure
+                				stroke: "black" },
+              					new go.Binding("text", "adornedObject",
+                             		function(shp) { return shp.naturalBounds.width.toFixed(0); })
+                  				.ofObject())
+          	),
+          		selectionAdorned: false 
+		},
 		new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
 		$(go.Shape, "Rectangle",
 			{strokeWidth: 1, fill: "grey", name:"SHAPE", margin: 0},
-			new go.Binding("figure", "figure"),
+			new go.Binding("figure", "figure"),//Sets the shapes bindings so they can be changed
 			new go.Binding("fill", "fill"),
 			new go.Binding("stroke", "stroke"),
 			new go.Binding("width", "width"),
 			new go.Binding("height", "height")
-			),
-		$(go.TextBlock,
-			{editable: true,
-			 name: "TEXT"},
-			 new go.Binding("text", "text").makeTwoWay())));
+		),
+	));
 
 
-myDiagram.nodeTemplateMap.add("Door",
+
+//CREATING A DOOR NODE - USED FOR DOORNODERIGHT
+myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when developing model category can be called
 	$(go.Node, "Vertical",
-		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Top},
-		$(go.Shape, "DoorNodeRight",
+		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Top},//Set its personalisations
+		$(go.Shape, "DoorNodeRight",//Set its figure
 			{stroke: "blue", fill: "blue"},
 			new go.Binding("fill", "fill"),
 			new go.Binding("stroke", "stroke")
 			)));
 
-//TRY SPLITTING THE OBJECTS ON THE PALETTE INTO SEPERATE NODE TEMPLATE MAPS
-
-  myDiagram.commandHandler.selectAll();
-
-  // start off with no Parts
-  myDiagram.undoManager.isEnabled = true;
 
 
-  // create the Palette
-  //var myPalette =
-    //$(go.Palette, "myPaletteDiv");
-   	myPalette = new go.Palette("myPaletteDiv");
-    myPalette.nodeTemplateMap = myDiagram.nodeTemplateMap;
-    myPalette.model = new go.GraphLinksModel([
-    	{category: "", fill: "grey", width: 120, height: 10},
-    	{text: "", fill: "white", figure: "DoorNodeRight"},
-    	{text: "", stroke: "black", figure: "LineH", width: 100, height: 10},
-    	{category: "Door", fill: "white", stroke: "black"}
+  
 
+
+
+//THE PALETTE WHICH SHOWS ALL THE NODES WHICH CAN BE DRAGGED ONTO THE DIAGRAM
+   	myPalette = new go.Palette("myPaletteDiv");//Create a new palette
+    myPalette.nodeTemplateMap = myDiagram.nodeTemplateMap;//Set the palette  node template to the diagram node template
+    myPalette.model = new go.GraphLinksModel([//Create a new palette model 
+    	{category: "", fill: "grey", width: 120, height: 10},//The Wall
+    	{text: "", fill: "white", figure: "DoorNodeRight"},//test doornode needs removing
+    	{text: "", stroke: "black", figure: "LineH", width: 100, height: 10},//window element
+    	{category: "DoorRight", fill: "white", stroke: "black"}//The Right Door Model
     	]);
 
-  /*// the Palette's node template is different from the main Diagram's
-  myPalette.nodeTemplate =
-    $(go.Node, "Vertical",
-      $(go.Shape,
-        { width: 100, height: 10, fill: "gray" },
-        new go.Binding("fill", "color")),
-      $(go.TextBlock,
-        new go.Binding("text", "color"))
-    );
 
 
-  // the list of data to show in the Palette
-  myPalette.model.nodeDataArray = [
-    { key: "Hori_Wall:", color: "Wall"},
-    { figure: "Circle", key: "Vert_Wall"}
-  ];*/
-
-
-
-/*Context Menu
+/*Context Menu - NEEDS REVISING
   myDiagram.contextMenu = $(go.HTMLInfo, {
   	show: showContextMenu,
   	hide: hideContextMenu
@@ -1187,14 +1138,14 @@ myDiagram.nodeTemplateMap.add("Door",
 
 
 
-    // Keep references to the scales and indicators to easily update them
-    var gradScaleHoriz = 
+//THE SNAPPING LINES ICONS
+    var gradScaleHoriz = //Creation of the horizontal lines when objects are close
       $(go.Node, "Graduated",
         { 
           graduatedTickUnit: 10, pickable: false, layerName: "Foreground",
           isInDocumentBounds: false, isAnimated: false
         },
-        $(go.Shape, { geometryString: "M0 0 H400" }),
+        $(go.Shape, { geometryString: "M0 0 H400" }),//creates simple lines using geometry strings
         $(go.Shape, { geometryString: "M0 0 V3", interval: 1 }),
         $(go.Shape, { geometryString: "M0 0 V15", interval: 5 }),
         $(go.TextBlock, 
@@ -1207,7 +1158,7 @@ myDiagram.nodeTemplateMap.add("Door",
         )
       );
     
-    var gradScaleVert = 
+    var gradScaleVert = //Creation of the vertical lines when objects are being aligned
       $(go.Node, "Graduated",
         { 
           graduatedTickUnit: 10, pickable: false, layerName: "Foreground",
@@ -1328,12 +1279,13 @@ myDiagram.nodeTemplateMap.add("Door",
     
 }
 
-function TopRotatingTool() {
+
+//CREATE THE ROTATING TOOL TO SNAP TO GRID
+function TopRotatingTool() {//creation of the rotating tool this allows grid snapping through angles of 5 degrees
     go.RotatingTool.call(this);
   }
   go.Diagram.inherit(TopRotatingTool, go.RotatingTool);
 
-  /** @override */
   TopRotatingTool.prototype.updateAdornments = function(part) {
     go.RotatingTool.prototype.updateAdornments.call(this, part);
     var adornment = part.findAdornment("Rotating");
@@ -1342,20 +1294,21 @@ function TopRotatingTool() {
     }
   };
 
-  /** @override */
   TopRotatingTool.prototype.rotate = function(newangle) {
     go.RotatingTool.prototype.rotate.call(this, newangle + 90);
   };
-  // end of TopRotatingTool class
+  // end of TopRotatingTool function
 
+
+//CREATION OF SVG CONVERTER SO USER CAN USE THE APP JUST TO MAKE A PRINT OUT, ADDITIONAL OPTION
 function makeSVG() {//Needs editing to make a larger SVG Image opened on a new window
-    var svg = myDiagram.makeSvg({
-        scale: 0.5
+    var svg = myDiagram.makeSvg({//creates a new svg variable 
+        scale: 0.5//sets the scale to half its original size
       });
-    svg.style.border = "1px solid black";
-    obj = document.getElementById("SVGArea");
-    obj.appendChild(svg);
-    if (obj.children.length > 0) {
+    svg.style.border = "1px solid black";//sets svg properties
+    obj = document.getElementById("SVGArea");// stores it in the found div
+    obj.appendChild(svg);//appends the svg image
+    if (obj.children.length > 0) {//replaces when something has changed
       obj.replaceChild(svg, obj.children[0]);
     }
 }
