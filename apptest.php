@@ -3,6 +3,7 @@
 ?>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.7.26/go-debug.js"></script>
 	<script src="js/GuidedDraggingTool.js"></script>
+	<script src="js/DimensioningLink.js"></script>
   <script>
   	function goIntro(){
 			go.licenseKey = "54ff44e7b11c28c702d95d76423d6cbc5cf07f21de824da35e5041a7ba5c6f17759def7053d6d8c9d1fd1dfa1d7990de8dc76a7e9249506cef23c3db16b287f9e56370e1140f418bf65626c39caf28a0ac7c73f2c5b324a0df2bd8f6bcfcc79f09eef4dc189808ba29280735017bf84eb7ab8d69e904991f6d6dcaf7fbfbbf4afb6c719b9ee5488aee";
@@ -1038,8 +1039,8 @@
 
 
 //DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODERIGHT
-	 	var doorNodeRight = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V48 B90 -90 0 5 48 45z";
-	 	var doorNodeLeft = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V48 B90 -90 0 5 48 45z";
+	 	var doorNodeRight = "F M0 0 L50 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 50 45z";
+	 	var doorNodeLeft = "F M0 0 L50 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 50 45z";
 
  		var DoorNode = go.Geometry.parse(doorNodeRight);//parses geometry string
  		var DoorNodeLeft = go.Geometry.parse(doorNodeLeft);
@@ -1164,12 +1165,6 @@ myDiagram.nodeTemplateMap.add("InsideWall",
 		),
 	));
 
- 
-
-
-
-
-  
 
 
 
