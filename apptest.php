@@ -1024,6 +1024,8 @@
           "draggingTool.centerGuidelineColor": "green",
           "draggingTool.guidelineWidth": 1,//set its width
           "draggingTool.isGridSnapEnabled": true,//enable grid snapping
+          "resizingTool.isGridSnapEnabled": true,
+          //"draggingTool.gridSnapCellSize": new go.Size(5,5),
           //RotatingTool Settings
 		  "rotatingTool.snapAngleMultiple": 5,//set the rotation angles, every 5 degrees
           "rotatingTool.snapAngleEpsilon": 5,
@@ -1036,9 +1038,14 @@
 
 
 //DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODERIGHT
-	 	var doorNodeRight = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 48 45z";
+	 	var doorNodeRight = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V48 B90 -90 0 5 48 45z";
+	 	var doorNodeLeft = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V48 B90 -90 0 5 48 45z";
+
  		var DoorNode = go.Geometry.parse(doorNodeRight);//parses geometry string
+ 		var DoorNodeLeft = go.Geometry.parse(doorNodeLeft);
+
  		DoorNode.normalize();
+		DoorNodeLeft.normalize();
 
 		go.Shape.defineFigureGenerator("DoorNodeRight", function(shape, w, h){//A function to define the previous geometry as an actual figure: "DoorNodeRight"
 			var geo = DoorNode.copy();//create a copy
@@ -1048,20 +1055,20 @@
 
 
 //DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODELEFT
-		var doorNodeLeft = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 48 45z";
-		var DoorNodeLeft = go.Geometry.parse(doorNodeLeft);
-		DoorNodeLeft.normalize();
+		
+		
 
 		go.Shape.defineFigureGenerator("DoorNodeLeft", function(shape, w, h){
 			var geo2 = DoorNodeLeft.copy();
 			geo2.scale(-1, 1);
 			geo2.scale(1, -1);
+			
 			return geo2; 
 		});
 
    		//More MyDiagram Settings
     	myDiagram.grid.visible = true;
-        myDiagram.grid.gridCellSize = new go.Size(10,10);
+        myDiagram.grid.gridCellSize = new go.Size(5,5);
 	    myDiagram.allowDrop = true;
 	    myDiagram.commandHandler.selectAll();
 
@@ -1070,7 +1077,7 @@
 
 //CREATING A NODE TEMPLATE, THIS ONE ADDS A DEFAULT SHAPE WITH DEFAULT SETTINGS AND PERSONALISATIONS - USED FOR WALLS
 myDiagram.nodeTemplateMap.add("",
-	$(go.Node, "Auto",
+	$(go.Node, "Spot",
 		{resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
 		 resizeAdornmentTemplate:
 			$(go.Adornment, "Spot",//set an adornment
@@ -1105,7 +1112,7 @@ myDiagram.nodeTemplateMap.add("",
 
 //CREATING A DOOR NODE - USED FOR DOORNODERIGHT
 myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when developing model category can be called
-	$(go.Node, "Auto",
+	$(go.Node, "Spot",
 		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Bottom},//Set its personalisations
 		$(go.Shape, "DoorNodeRight",//Set its figure
 			{stroke: "blue", fill: "blue"},
@@ -1116,7 +1123,7 @@ myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when
 
 //CREATING A DOOR NODE - USED FOR DOORNODELEFT
 myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when developing model category can be called
-	$(go.Node, "Auto",
+	$(go.Node, "Spot",
 		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Bottom},//Set its personalisations
 		$(go.Shape, "DoorNodeLeft",//Set its figure
 			{stroke: "blue", fill: "blue"},
@@ -1124,9 +1131,10 @@ myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when 
 			new go.Binding("stroke", "stroke")
 			)));
 
-/*myDiagram.nodeTemplateMap.add("InsideWall", 
-	$(go.Node, "Auto",
-		{resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
+
+myDiagram.nodeTemplateMap.add("InsideWall",
+	$(go.Node, "Spot",
+		{dragComputation: avoidNodeOverlap, resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
 		 resizeAdornmentTemplate:
 			$(go.Adornment, "Spot",//set an adornment
             	$(go.Placeholder),  // takes size and position of adorned object
@@ -1145,9 +1153,18 @@ myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when 
           	),
           		selectionAdorned: false 
 		},
-		$(go.Shape,"Rectangle",
-			{width: ""}
-			)));*/
+		new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+		$(go.Shape, "Rectangle",
+			{strokeWidth: 1, fill: "grey", name:"SHAPE", margin: 0},
+			new go.Binding("figure", "figure"),//Sets the shapes bindings so they can be changed
+			new go.Binding("fill", "fill"),
+			new go.Binding("stroke", "stroke"),
+			new go.Binding("width", "width"),
+			new go.Binding("height", "height")
+		),
+	));
+
+ 
 
 
 
@@ -1160,9 +1177,9 @@ myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when 
    	myPalette = new go.Palette("myPaletteDiv");//Create a new palette
     myPalette.nodeTemplateMap = myDiagram.nodeTemplateMap;//Set the palette  node template to the diagram node template
     myPalette.model = new go.GraphLinksModel([//Create a new palette model 
-    	{category: "", fill: "grey", width: 120, height: 10},//The Wall
-    	{category: "", stroke: "black", figure: "LineH", width: 98, height: 10},//window element
-    	{category: "InsideWall", fill: "lightgrey", width: 120, height: 5},
+    	{category: "", fill: "grey", stroke: "grey", width: 160, height: 10},//The Wall
+    	{category: "", stroke: "black", figure: "LineH", width: 100, height: 10},//window element
+    	{category: "InsideWall", fill: "white", stroke: "white", width: 70, height: 10},
     	{category: "DoorLeft", fill: "white", stroke: "black"},
     	{category: "DoorRight", fill: "white", stroke: "black"}//The Right Door Model
     	]);
@@ -1362,6 +1379,51 @@ function makeSVG() {//Needs editing to make a larger SVG Image opened on a new w
       obj.replaceChild(svg, obj.children[0]);
     }
 }
+
+//CREATING A TOOL SO THAT NODES WONT OVERLAP UNSURE IF I NEED THIS AT THIS TIME
+function isUnoccupied(r, node){
+	var diagram = node.diagram;
+
+	function navig(obj) {
+		var part = obj.part;
+		if (part === node) return null;
+		if (part instanceof go.Link) return null; 
+		return part; 
+	}
+
+	var lit = diagram.layers;
+	while (lit.next()) {
+		var lay = lit.value;
+		if (lay.isTemporary) continue;
+		if (lay.findObjectsIn(r, navig, null, true).count > 0) return false;
+	}
+	return true; 
+}
+
+
+function avoidNodeOverlap(node, pt, gridpt){
+	if (node.diagram instanceof go.Palette) return gridpt;
+	var bnds = node.actualBounds; 
+	var loc = node.location; 
+
+	var r = new go.Rect(gridpt.x - (loc.x - bnds.x), gridpt.y - (loc.y - bnds.y), bnds.width, bnds.height);
+	r.inflate(-0.5, -0.5);
+
+	if (!(node.diagram.currentTool instanceof go.DraggingTool) && (!node._temp || !node.layer.isTemporary)){
+		node._temp = true;
+		while (!isUnoccupied(r, node)){
+			r.x += 10;
+			r.y += 10;
+		}
+		r.inflate(0.5, 0.5);
+		return new go.Point(r.x - (loc.x - bnds.x), r.y - (loc.y - bnds.y));
+	}
+	if (isUnoccupied(r, node)) return gridpt;
+	return loc;
+}
+
+
+
 
   </script>             
 
