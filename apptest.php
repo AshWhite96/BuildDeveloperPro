@@ -1071,6 +1071,7 @@
 //CREATING A NODE TEMPLATE, THIS ONE ADDS A DEFAULT SHAPE WITH DEFAULT SETTINGS AND PERSONALISATIONS - USED FOR WALLS
 myDiagram.nodeTemplateMap.add("",
 	$(go.Node, "Auto",
+		{ dragComputation: avoidNodeOverlap },
 		{resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
 		 resizeAdornmentTemplate:
 			$(go.Adornment, "Spot",//set an adornment
@@ -1362,6 +1363,50 @@ function makeSVG() {//Needs editing to make a larger SVG Image opened on a new w
       obj.replaceChild(svg, obj.children[0]);
     }
 }
+
+//CREATING A TOOL SO THAT NODES WONT OVERLAP UNSURE IF I NEED THIS AT THIS TIME
+function isUnoccupied(r, node){
+	var diagram = node.diagram;
+
+	function navig(obj) {
+		var part = obj.part;
+		if (part === node) return null;
+		if (part instanceof go.Link) return null; 
+		return part; 
+	}
+
+	var lit = diagram.layers;
+	while (lit.next()) {
+		var lay = lit.value;
+		if (lay.isTemporary) continue;
+		if (lay.findObjectsIn(r, navig, null, true).count > 0) return false;
+	}
+	return true; 
+}
+
+
+function avoidNodeOverlap(node, pt, gridpt){
+	if (node.diagram instanceof go.Palette) return gridpt;
+	var bnds = node.actualBounds; 
+	var loc = node.location; 
+
+	var r = new go.Rect(gridpt.x - (loc.x - bnds.x), gridpt.y - (loc.y - bnds.y), bnds.width, bnds.height);
+	r.inflate(-0.5, -0.5);
+
+	if (!(node.diagram.currentTool instanceof go.DraggingTool) && (!node._temp || !node.layer.isTemporary)){
+		node._temp = true;
+		while (!isUnoccupied(r, node)){
+			r.x += 10;
+			r.y += 10;
+		}
+		r.inflate(0.5, 0.5);
+		return new go.Point(r.x - (loc.x - bnds.x), r.y - (loc.y - bnds.y));
+	}
+	if (isUnoccupied(r, node)) return gridpt;
+	return loc;
+}
+
+
 
   </script>             
 
