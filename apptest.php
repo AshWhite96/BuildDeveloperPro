@@ -1036,7 +1036,7 @@
 
 
 //DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODERIGHT
-	 	var doorNodeRight = "F M0 0 L55 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 55 45z";
+	 	var doorNodeRight = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 48 45z";
  		var DoorNode = go.Geometry.parse(doorNodeRight);//parses geometry string
  		DoorNode.normalize();
 
@@ -1048,7 +1048,7 @@
 
 
 //DEVELOPING A DOOR NODE USING GEOMETRY STRINGS - DOORNODELEFT
-		var doorNodeLeft = "F M0 0 L55 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 55 45z";
+		var doorNodeLeft = "F M0 0 L48 0 V5 H0 V0 H5" + "F M0 5 V50 B90 -90 0 5 48 45z";
 		var DoorNodeLeft = go.Geometry.parse(doorNodeLeft);
 		DoorNodeLeft.normalize();
 
@@ -1070,7 +1070,7 @@
 
 //CREATING A NODE TEMPLATE, THIS ONE ADDS A DEFAULT SHAPE WITH DEFAULT SETTINGS AND PERSONALISATIONS - USED FOR WALLS
 myDiagram.nodeTemplateMap.add("",
-	$(go.Node, "Vertical",
+	$(go.Node, "Auto",
 		{resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
 		 resizeAdornmentTemplate:
 			$(go.Adornment, "Spot",//set an adornment
@@ -1105,8 +1105,8 @@ myDiagram.nodeTemplateMap.add("",
 
 //CREATING A DOOR NODE - USED FOR DOORNODERIGHT
 myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when developing model category can be called
-	$(go.Node, "Vertical",
-		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Top},//Set its personalisations
+	$(go.Node, "Auto",
+		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Bottom},//Set its personalisations
 		$(go.Shape, "DoorNodeRight",//Set its figure
 			{stroke: "blue", fill: "blue"},
 			new go.Binding("fill", "fill"),
@@ -1116,13 +1116,39 @@ myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when
 
 //CREATING A DOOR NODE - USED FOR DOORNODELEFT
 myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when developing model category can be called
-	$(go.Node, "Vertical",
-		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Top},//Set its personalisations
+	$(go.Node, "Auto",
+		{resizable: false, rotatable: true, selectionAdorned: false, locationSpot: go.Spot.Bottom},//Set its personalisations
 		$(go.Shape, "DoorNodeLeft",//Set its figure
 			{stroke: "blue", fill: "blue"},
 			new go.Binding("fill", "fill"),
 			new go.Binding("stroke", "stroke")
 			)));
+
+/*myDiagram.nodeTemplateMap.add("InsideWall", 
+	$(go.Node, "Auto",
+		{resizable: true, resizeObjectName: "SHAPE", rotatable: true, locationSpot: go.Spot.Top,
+		 resizeAdornmentTemplate:
+			$(go.Adornment, "Spot",//set an adornment
+            	$(go.Placeholder),  // takes size and position of adorned object
+            		$(go.Shape, "Circle",  // creates left resize handle
+              			{alignment: go.Spot.Left, cursor: "col-resize",//sets the spot to the left and sets cursor
+                		desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),//sets its size, and colour
+            		$(go.Shape, "Circle",  // creates right resize handle
+              			{alignment: go.Spot.Right, cursor: "col-resize",
+                		desiredSize: new go.Size(9, 9), fill: "lightblue", stroke: "dodgerblue" }),
+            				$(go.TextBlock, //Shows the width of the object as text
+              					{alignment: go.Spot.Top, alignmentFocus: new go.Spot(0.5, 1),//sets its position above figure
+                				stroke: "black" },
+              					new go.Binding("text", "adornedObject",
+                             		function(shp) { return shp.naturalBounds.width.toFixed(0); })
+                  				.ofObject())
+          	),
+          		selectionAdorned: false 
+		},
+		$(go.Shape,"Rectangle",
+			{width: ""}
+			)));*/
+
 
 
 
@@ -1135,7 +1161,8 @@ myDiagram.nodeTemplateMap.add("DoorLeft",//Set its category to DoorLeft so when 
     myPalette.nodeTemplateMap = myDiagram.nodeTemplateMap;//Set the palette  node template to the diagram node template
     myPalette.model = new go.GraphLinksModel([//Create a new palette model 
     	{category: "", fill: "grey", width: 120, height: 10},//The Wall
-    	{text: "", stroke: "black", figure: "LineH", width: 100, height: 10},//window element
+    	{category: "", stroke: "black", figure: "LineH", width: 98, height: 10},//window element
+    	{category: "InsideWall", fill: "lightgrey", width: 120, height: 5},
     	{category: "DoorLeft", fill: "white", stroke: "black"},
     	{category: "DoorRight", fill: "white", stroke: "black"}//The Right Door Model
     	]);
