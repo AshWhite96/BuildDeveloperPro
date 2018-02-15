@@ -4,6 +4,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.7.26/go-debug.js"></script>
 	<script src="js/GuidedDraggingTool.js"></script>
 	<script src="js/DimensioningLink.js"></script>
+	<script src="js/DataInspector"></script>
   <script>
   	function goIntro(){
 			go.licenseKey = "54ff44e7b11c28c702d95d76423d6cbc5cf07f21de824da35e5041a7ba5c6f17759def7053d6d8c9d1fd1dfa1d7990de8dc76a7e9249506cef23c3db16b287f9e56370e1140f418bf65626c39caf28a0ac7c73f2c5b324a0df2bd8f6bcfcc79f09eef4dc189808ba29280735017bf84eb7ab8d69e904991f6d6dcaf7fbfbbf4afb6c719b9ee5488aee";
@@ -1179,7 +1180,6 @@ myDiagram.nodeTemplateMap.add("InsideWall",
     	{category: "DoorRight", fill: "white", stroke: "black"}//The Right Door Model
     	]);
 
-
 /*Context Menu - NEEDS REVISING
   myDiagram.contextMenu = $(go.HTMLInfo, {
   	show: showContextMenu,
@@ -1436,6 +1436,12 @@ function avoidNodeOverlap(node, pt, gridpt){
 	</div>
 	<button onclick="makeSVG()">Render as SVG</button>
   <div id="SVGArea"></div>
+  <div id="BDPcalc" class="col-md-12">
+  	<?php 
+  		include ('BDPcalc.php');
+  	?>
+
+  </div> 
 
 </div>
 
