@@ -68,11 +68,12 @@
   }   
 }
 
-#myDiagramDiv{
-  width: 100px;
-  height:100px;
+
+.panel-group, .panel+.panel{
+margin-top: 0px !important;
 }
 
-.Palette{
-  border: solid 1px white;
+.panel, .panel-default{
+padding-right: 0px !important;
+padding-left: 0px !important;
 }

@@ -12,7 +12,6 @@
 
       <?php 
       		if (isset($_SESSION['u_id'])) {
-      			echo "You are logged in!";
             include 'apptest.php';
 
       		}

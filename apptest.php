@@ -5,6 +5,8 @@
 	<script src="js/GuidedDraggingTool.js"></script>
 	<script src="js/DimensioningLink.js"></script>
 	<script src="js/DataInspector"></script>
+		<link rel="stylesheet" type="text/css" href="css/custom.css">
+
   <script>
   	function goIntro(){
 			go.licenseKey = "54ff44e7b11c28c702d95d76423d6cbc5cf07f21de824da35e5041a7ba5c6f17759def7053d6d8c9d1fd1dfa1d7990de8dc76a7e9249506cef23c3db16b287f9e56370e1140f418bf65626c39caf28a0ac7c73f2c5b324a0df2bd8f6bcfcc79f09eef4dc189808ba29280735017bf84eb7ab8d69e904991f6d6dcaf7fbfbbf4afb6c719b9ee5488aee";
@@ -1111,7 +1113,6 @@ myDiagram.nodeTemplateMap.add("",
 	));
 
 
-
 //CREATING A DOOR NODE - USED FOR DOORNODERIGHT
 myDiagram.nodeTemplateMap.add("DoorRight",//Set its category to DoorLeft so when developing model category can be called
 	$(go.Node, "Spot",
@@ -1419,21 +1420,67 @@ function avoidNodeOverlap(node, pt, gridpt){
 
 
 
-
   </script>             
-
 <body onload="goIntro()">
-
 	<div class="row">
-	<div id="myPaletteDiv" class="Palette col-md-2 float-right" style="border: solid 1px white; height: 500px; background-color: #ffc0cb;">
-  		<h2>Build Items</h2>
-  		<hr>
-	</div>
-		
+	<div class="panel-group" id="accordion">
+    	<div class="panel panel-default col-md-6">
+      		<div class="panel-heading">
+        		<h4 class="panel-title">
+          			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Calculator</a>
+          		</h4>
+      		</div>
+      	<div id="collapse1" class="panel-collapse collapse">
+        	<div class="panel-body">Panel Body
+				<form>
+					<input type="text" id="num1" placeholder="Height(cm)">
+					<input type="text" id="num2" placeholder="Width (cm)">
+					<input type="button" onclick="BrickCalc()" value="Brick Calculator"/>
+					<input type="button" onclick="MortarCalc()" value="Mortar Calculator"/>
+					<input type="button" onclick="multi()" value="multi"/>
+					<input type="button" onclick="div()" value="div"/>
+				</form>
+        	</div>
+        		<div class="panel-footer">Panel Footer</div>
+      	</div>
+    	</div>
+  
+
+    	<div class="panel panel-default col-md-6">
+      		<div class="panel-heading">
+        		<h4 class="panel-title">
+          			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">Estimator</a>
+        		</h4>
+      		</div>
+      	<div id="collapse2" class="panel-collapse collapse">
+        	<div class="panel-body">Panel Body
+				<form>
+					<input type="text" id="num1" placeholder="Height(cm)">
+					<input type="text" id="num2" placeholder="Width (cm)">
+					<input type="button" onclick="BrickCalc()" value="Brick Calculator"/>
+					<input type="button" onclick="MortarCalc()" value="Mortar Calculator"/>
+					<input type="button" onclick="multi()" value="multi"/>
+					<input type="button" onclick="div()" value="div"/>
+				</form>
+
+
+
+
+        	</div>
+        		<div class="panel-footer">Panel Footer</div>
+      	</div>
+    	</div></div></div>
+  	<div class="row">
+			<div id="myPaletteDiv" class="Palette col-md-2" style=" height: 300px; width: 16%; background-color: #ffc0cb;">
+  					<h2>Build Items</h2>
+  					<hr>
+			</div>
+
 	<div class="GraphHolder col-md-10">
-  		<div id="myDiagramDiv" style="border: solid 1px black; height:800px; background-color: #ffc0cb;"></div>
+  		<div id="myDiagramDiv" class="" style="border: solid 1px black; height: 900px; width: 100%; background-color: #ffc0cb;"></div>
   		<!--<div id="myDiagramDiv" style="border: solid 1px black; width:400px; height:400px" onmouseover="showIndicators()" onmouseout="hideIndicators()" style="background-color: #DAE4E4;"></div>-->
 	</div>
+</div>
 	<button onclick="makeSVG()">Render as SVG</button>
   <div id="SVGArea"></div>
   <div id="BDPcalc" class="col-md-12">
@@ -1443,7 +1490,6 @@ function avoidNodeOverlap(node, pt, gridpt){
 
   </div> 
 
-</div>
 
 </body>
 </html>
