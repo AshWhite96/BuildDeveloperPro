@@ -1017,7 +1017,7 @@
       $(go.Diagram, "myDiagramDiv",  // create a Diagram for the DIV HTML element
         {
            //Initial Diagram Settings
-          initialContentAlignment: go.Spot.Center, // center the content
+          initialContentAlignment: go.Spot.Default, // center the content
           draggingTool: new GuidedDraggingTool(),//create a new draggingtool function called draggingTool
           rotatingTool: $(TopRotatingTool),// defined below
           "undoManager.isEnabled": true,  // enable undo & redo
@@ -1036,7 +1036,6 @@
   		  //MISC Settings
           scrollMode: go.Diagram.InfiniteScroll,  // allow the diagram to be scrolled beyond content
           padding: 0,  // scales should be allowed right up against the edges of the viewport
-          
        });
 
 
@@ -1075,6 +1074,33 @@
         myDiagram.grid.gridCellSize = new go.Size(5,5);
 	    myDiagram.allowDrop = true;
 	    myDiagram.commandHandler.selectAll();
+
+	    defaultWallHeight = "240";
+
+	    var txtHeight = document.getElementById("num1");
+	    txtHeight.value = defaultWallHeight;
+
+
+myDiagram.addDiagramListener("PartResized", function (shp) {
+	document.getElementById("num2").value = "";
+	var txtWidth = document.getElementById("num2");
+	txtWidth.value = txtWidth.value + shp.subject.width;
+    //alert(shp.subject.width);
+});
+
+myDiagram.addDiagramListener("ObjectSingleClicked", function (shp){
+	document.getElementById("num2").value = "";
+	var txtWidth = document.getElementById("num2");
+	txtWidth.value = txtWidth.value + shp.subject.width;
+}); 
+
+myDiagram.doFocus = function() {
+  var x = window.scrollX || window.pageXOffset;
+  var y = window.scrollY || window.pageYOffset;
+  go.Diagram.prototype.doFocus.call(this);
+  window.scrollTo(x, y);
+}
+
 
 
 
@@ -1424,38 +1450,52 @@ function avoidNodeOverlap(node, pt, gridpt){
 <body onload="goIntro()">
 	<div class="row">
 	<div class="panel-group" id="accordion">
-    	<div class="panel panel-default col-md-6">
+    	<div class="panel panel-default col-lg-8 col-md-8 col-sm-8 col-xl-8">
       		<div class="panel-heading">
         		<h4 class="panel-title">
-          			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Calculator</a>
+          			<a class="accordion-toggle" data-toggle="collapse" href="#collapse1">Calculator</a>
           		</h4>
       		</div>
       	<div id="collapse1" class="panel-collapse collapse">
-        	<div class="panel-body">Panel Body
+        	<div class="panel-body">
 				<form>
-					<input type="text" id="num1" placeholder="Height(cm)">
-					<input type="text" id="num2" placeholder="Width (cm)">
-					<input type="button" onclick="BrickCalc()" value="Brick Calculator"/>
-					<input type="button" onclick="MortarCalc()" value="Mortar Calculator"/>
-					<input type="button" onclick="multi()" value="multi"/>
-					<input type="button" onclick="div()" value="div"/>
+					<div class="formDivide col-lg-6 col-md-6 col-sm-6 col-xl-6">
+					<div class="form-group">
+						<label for="num1">Height of Wall Section (CM)</label>
+							<input type="text" id="num1" class="form-control" placeholder="Height(cm)">
+					</div>
+					<div class="form-group">
+						<label for="num2">Width of Wall Section (CM)</label>
+							<input type="text" id="num2" class="form-control" placeholder="Width (cm)">
+					</div><hr>
+					<div class="form-group">
+						<input type="button" onclick="BrickCalc()" class="btn btn-default" value="Brick Calculator"/>
+						<input type="button" onclick="MortarCalc()" class="btn btn-default" value="Mortar Calculator"/>
+						<input type="button" onclick="PlasterCalc()" class="btn btn-default" value="Plaster Calculator"/>
+						<input type="button" onclick="BoardCalc()" class="btn btn-default" value="Plasterboard Calculator"/>
+					</div>
+					</div>
 				</form>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 pull-right" id="details">Details
+					<div id="brickdetails"></div>
+				</div>
         	</div>
-        		<div class="panel-footer">Panel Footer</div>
+        		<div class="panel-footer"></div>
       	</div>
     	</div>
-  
 
-    	<div class="panel panel-default col-md-6">
+    	<div class="panel panel-default col-lg-4 col-md-4 col-sm-4 col-xl-4">
       		<div class="panel-heading">
         		<h4 class="panel-title">
-          			<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">Estimator</a>
+          			<a class="accordion-toggle" data-toggle="collapse" href="#collapse3">Estimator</a>
         		</h4>
       		</div>
-      	<div id="collapse2" class="panel-collapse collapse">
+      	<div id="collapse3" class="panel-collapse collapse">
         	<div class="panel-body">Panel Body
 				<form>
+					<label for="num1">Height of Wall Section (CM)</label>
 					<input type="text" id="num1" placeholder="Height(cm)">
+					<label for="num2">Width of Wall Section (CM)</label>
 					<input type="text" id="num2" placeholder="Width (cm)">
 					<input type="button" onclick="BrickCalc()" value="Brick Calculator"/>
 					<input type="button" onclick="MortarCalc()" value="Mortar Calculator"/>
@@ -1469,14 +1509,15 @@ function avoidNodeOverlap(node, pt, gridpt){
         	</div>
         		<div class="panel-footer">Panel Footer</div>
       	</div>
+
     	</div></div></div>
   	<div class="row">
-			<div id="myPaletteDiv" class="Palette col-md-2" style=" height: 300px; width: 16%; background-color: #ffc0cb;">
+			<div id="myPaletteDiv" class="Palette col-lg-2 col-md-2 col-sm-2 col-xl-2" style=" height: 300px; width: 16%; background-color: #ffc0cb;">
   					<h2>Build Items</h2>
   					<hr>
 			</div>
 
-	<div class="GraphHolder col-md-10">
+	<div class="GraphHolder col-lg-10 col-md-10 col-sm-10 col-xl-10">
   		<div id="myDiagramDiv" class="" style="border: solid 1px black; height: 900px; width: 100%; background-color: #ffc0cb;"></div>
   		<!--<div id="myDiagramDiv" style="border: solid 1px black; width:400px; height:400px" onmouseover="showIndicators()" onmouseout="hideIndicators()" style="background-color: #DAE4E4;"></div>-->
 	</div>

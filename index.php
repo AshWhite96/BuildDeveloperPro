@@ -1,66 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-
-    <meta charset="utf-8">
+<head>
+      <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <title>Build Developer Pro</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Cabin:700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/homepage.css">
+</head>
 
-    <!-- Custom styles for this template -->
-    <link href="css/grayscale.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.7.26/go-debug.js"></script> 
-    
-  </head>
 
-  <body id="page-top">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-        <div class="BDPLogo img-responsive">
-          <img src="img/BDPlogo.png" alt="Build Developer Pro logo">
-        </div>
-          <a class="navbar-brand js-scroll-trigger" href="#page-top">Build Developer Pro</a>
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fa fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="app.php">Application</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="https://builditashwhite.wordpress.com/">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="login.php">Login</a>
-            </li>
-            </div>
-          </ul>
-        </div>
-      </div>
-    </nav>
+<?php   
+ include_once 'includes/header.php';
+  ?> 
+
 
     <!-- Intro Header -->
     <header class="masthead">
       <div class="intro-body">
         <div class="container">
           <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-lg-12 mx-auto">
               <h1 class="brand-heading">The Professional Development Toolkit</h1>
               <p class="intro-text">Designed for Handymans, Tradesmen
                 <br>& DIY Enthusiasts</p>
@@ -74,11 +37,11 @@
     </header>
 
     <!-- About Section -->
-    <section id="about" class="content-section text-center">
+    <section id="about" class=" about-section content-section text-center">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2>About Build Developer Pro</h2>
+          <div class="col-lg-12 mx-auto">
+            <h3>What is Build Developer Pro?</h3><hr>
             <p>Grayscale is a free Bootstrap theme created by Start Bootstrap. It can be yours right now, simply download the template on
               <a href="http://startbootstrap.com/template-overviews/grayscale/">the preview page</a>. The theme is open source, and you can use it for any purpose, personal or commercial.</p>
             <p>This theme features stock photos by
@@ -92,22 +55,27 @@
     </section>
 
     <!-- Download Section -->
-    <section id="download" class="download-section content-section text-center">
+    <section id="help" class="help-section content-section text-center">
       <div class="container">
-        <div class="col-lg-8 mx-auto">
-          <h2>Download Grayscale</h2>
-          <p>You can download Grayscale for free on the preview page at Start Bootstrap.</p>
-          <a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visit Download Page</a>
+        <div class="col-lg-12 mx-auto">
+          <h3>Help</h3><hr>
+          <p>This section is to help users that may be having problems using the site or application. A video series on YouTube have been provided to aid the user in its usage as well as more experience additions such as shortcutting</p>
+          <div class="col-md-6">
+            <h4>Video Help and Tutorials</h4>
+          </div>
+          <div class="col-md-4 pull-right">
+            <h4 id="as">Accessiblity Settings</h4>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="content-section text-center">
+    <!-- Useful Links Section -->
+    <section id="useful" class="useful-content content-section text-center">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 mx-auto">
-            <h2>Login or Register </h2>
+          <div class="col-lg-12 mx-auto">
+            <h3>Useful Links</h3>
             <p>Feel free to leave us a comment on the
               <a href="http://startbootstrap.com/template-overviews/grayscale/">Grayscale template overview page</a>
               on Start Bootstrap to give some feedback about this theme!</p>
@@ -136,29 +104,29 @@
       </div>
     </section>
 
-    <!-- Map Section -->
-    <div id="map"></div>
+    <!-- Map Section
+    <div id="map"></div> -->
 
-    <!-- Footer -->
+ 
     <footer>
       <div class="container text-center">
         <p>Copyright &copy; Build Developer Pro 2017</p>
       </div>
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
+    <!-- Bootstrap core JavaScript 
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Plugin JavaScript 
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
 
-    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMA3qL8wy6L-feaM7q1mkztKsjjk8f6eg&sensor=false"></script>
+    <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMA3qL8wy6L-feaM7q1mkztKsjjk8f6eg&sensor=false"></script>-->
 
-    <!-- Custom scripts for this template -->
+    <!-- Custom scripts for this template 
     <script src="js/grayscale.min.js"></script>
 
   </body>
 
-</html>
+</html>-->

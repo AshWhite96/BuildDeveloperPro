@@ -78,6 +78,7 @@ header .nav-login form button{
 body{
     background:url("../img/intro-bg2.jpg");
     background-size: 100%; 
+    background: no-repeat;
 }
 
 #login-dp{
@@ -172,6 +173,9 @@ background-color:white !important
 .GraphHolder{
       padding-right: 0px;
 }
+
+
+
 
 
 

@@ -1,7 +1,4 @@
-.BDPLogo img{
-	height: auto;
-	width: 70px;
-}
+
 
 @media (min-width: 768px) {
     .omb_row-sm-offset-3 div:first-child[class*="col-"] {
@@ -76,4 +73,13 @@ margin-top: 0px !important;
 .panel, .panel-default{
 padding-right: 0px !important;
 padding-left: 0px !important;
+}
+
+.navbar.center .navbar-inner {
+    text-align: center;
+}
+
+.navbar.center .navbar-inner .nav {
+    display:inline-block;
+    float: none;
 }

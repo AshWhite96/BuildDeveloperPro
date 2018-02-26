@@ -17,7 +17,7 @@
 <body>
 
 <header>
-  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" id="mainNav">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -27,19 +27,23 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Home</a>
+        <a class="navbar-brand js-scroll-trigger" href="index.php">
+        <img src="../img/BDPlogo.png" width="40" height="40" class="d-inline-block align-top pull-left" alt="Build Developer Pro">Build Developer Pro
+      </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav ">
         <?php 
           if (isset($_SESSION['u_id'])) {
             echo '<li><a href="build.php">My Build</a></li>';
           }
 
           ?>
-        
+          <li><a href="#about">About</a></li>
+          <li><a href="index.php">Blog</a></li>
+          <li><a href="index.php">Help</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><p class="navbar-text">Already have an account?</p></li>
@@ -48,7 +52,7 @@
           if (isset($_SESSION['u_id'])) {
             echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Logout</b> <span class="caret"></span></a>';
           } else {
-              echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>';
+              echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login or SignUp</b> <span class="caret"></span></a>';
           }
 
         ?>
